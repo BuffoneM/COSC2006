@@ -39,10 +39,10 @@ public class Assignment1 {
 				}
 			} while(!(input.equals("S") || input.equals("P") || input.equals("Q")));
 
-			// Initiating the proper actions based on what the user wants to do on the SORTED arrays
+			// Initiating sort method
 			insertionSort(accountNum, accountType, accountBal);
 
-			// Search option
+			// Search option based on user selection
 			if(input.equals("S")) {
 
 				System.out.println("\nFor broad searching ('0' for account number - 'X' for an account type)");
@@ -78,6 +78,7 @@ public class Assignment1 {
 	// Read the data into the arrays
 	public static void readFile (File file) {
 
+		// Attempt scanner connection to the file
 		try {
 			Scanner input = new Scanner(file);
 
@@ -104,7 +105,7 @@ public class Assignment1 {
 
 
 	/* 
-	 * Reference to learn the sort
+	 * Reference to learn the sort algorithm
 	 * https://www.youtube.com/watch?v=Dl0PASPTfQw
 	 */ 
 	// Use the insertion sort method to sort the array
@@ -205,6 +206,9 @@ public class Assignment1 {
 		
 		double totalBal = 0;
 		int oldAccount = -1;
+		
+		// Compare the account behind the one we are comparing because when we reach the end of the array
+		// where there are only '0' values, we'll run out of values to look at..
 		for(int i = 0; i < numAccounts; i++) {
 			
 			if(accountNum[i] != oldAccount) {
@@ -246,43 +250,5 @@ public class Assignment1 {
 	}
 }
 
-
-/*
-public static void calculateTotalBalance(int userAccount) {
-
-		int i = 0;
-		double totalBal = 0;
-		boolean accountFound = false;
-
-		/*
- * -To find the total balance, loop as many accounts there are
- * 
- * -Because the accounts are sorted, if the accountNum[i] is greater
- *  than the account number we are looking for, break out of the loop
- *
-		while(i < numAccounts) {
-			if(accountNum[i] == userAccount) {
-				totalBal += accountBal[i];
-				accountFound = true;
-			}
-			if(accountNum[i] > userAccount) {
-				break;
-			}
-			i++;
-		}
-
-		if(accountFound) {
-			totalBal = Math.round(totalBal * 100) / 100.00;
-			System.out.println("The total balance is: $" + totalBal);
-		}
-		else {
-			System.out.println("The account could not be found.");
-		}
-
-		String s = "";
-		s = in.nextLine();
-		System.out.println("\n...Returning to main menu\n"); // Used for menu spacing
-	}
- */
 
 
