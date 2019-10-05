@@ -212,11 +212,11 @@ public class Assignment1 {
 		for(int i = 0; i < numAccounts; i++) {
 			
 			if(accountNum[i] != oldAccount) {
-				//totalBal = Math.round(totalBal * 100) / 100.00;	
+				totalBal = Math.round(totalBal * 100) / 100.00;	
 
 				if(i > 0) {
-					System.out.printf(oldAccount + "\t\t\t$.2f%n", totalBal);
-					//System.out.println(oldAccount + "\t\t\t$" + totalBal);	
+					//System.out.printf(oldAccount + "\t\t\t$.2f%n", totalBal);
+					System.out.println(oldAccount + "\t\t\t$" + totalBal);	
 				}
 				
 				oldAccount = accountNum[i];
@@ -227,9 +227,9 @@ public class Assignment1 {
 		
 		}
 		if(numAccounts > 0) {
-			//totalBal = Math.round(totalBal * 100) / 100.00;		
+			totalBal = Math.round(totalBal * 100) / 100.00;		
 			System.out.println(oldAccount + "\t\t\t$" + totalBal);
-			System.out.printf(oldAccount + "\t\t\t$.2f%n", totalBal);
+			//System.out.printf(oldAccount + "\t\t\t$.2f%n", totalBal);
 
 		}
 
