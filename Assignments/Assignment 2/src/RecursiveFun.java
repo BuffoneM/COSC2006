@@ -14,8 +14,8 @@ public class RecursiveFun {
 		triangle(1, numStar);
 		System.out.println();
 		
-	// 2. Triangle Pattern
-		numbers("THERBLIG", 1);
+	// 2. String and level concat
+		numbers("THERBLIG", 2);
 		System.out.println();
 		
 	// 3. A Teddy Bear Picnic
@@ -29,7 +29,7 @@ public class RecursiveFun {
 		System.out.println("\n");
 		
 	// 5. Sequence of Binary Numbers
-		binaryNumbers("00101", 2);
+		binaryNumbers("00101", 4);
 		
 	}
 	
@@ -62,6 +62,7 @@ public class RecursiveFun {
 	public static void numbers (String prefix, int levels) {
 		
 		for(int i = 1; i <= 9; i++) {
+			
 			String solution = prefix + i + ".";
 			
 			if(levels == 1) System.out.println(solution);
