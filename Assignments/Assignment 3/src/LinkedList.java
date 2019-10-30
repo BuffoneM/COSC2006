@@ -1,4 +1,9 @@
-
+/*
+ * Assignment 3
+ * Michael Buffone
+ * Generic linked list that can be used with any type of object
+ * given that the object is comparable
+ */
 public class LinkedList<T extends Comparable<T>> {
 	
 	private class Node {
@@ -60,7 +65,7 @@ public class LinkedList<T extends Comparable<T>> {
 	}
 	private void print(Node h) {
 		if(h == null) return;
-		System.out.print(h.item + ", ");
+		System.out.println(h.toString());
 		print(h.next);
 	}
 
