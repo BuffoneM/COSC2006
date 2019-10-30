@@ -16,11 +16,24 @@ public class TestProgram {
 		
 		System.out.println("----------------------------------------");
 		LinkedList<Student> list = new LinkedList<Student>();
-		list.addFirst(s1);
+		list.addLast(s1);
+		//list.addFirst(s1);
 		list.addFirst(s2);
 		list.addFirst(new Student(12345, 99));
-		
 		list.print();
+		
+		System.out.println("----------------------------------------");
+		list.deleteFirst();
+		list.print();
+		
+		System.out.println("----------------------------------------");
+		list.addLast(new Student(5555, 45));
+		list.print();
+		
+		System.out.println("----------------------------------------");
+		list.deleteLast();
+		list.print();
+		
 		
 	}
 

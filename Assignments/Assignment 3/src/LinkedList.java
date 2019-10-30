@@ -34,7 +34,10 @@ public class LinkedList<T extends Comparable<T>> {
 	public void addLast(T item) {
 		Node curr = head;
 		Node prev = null;
-		if(isEmpty()) head = new Node(item, head);
+		if(isEmpty()) {
+			head = new Node(item, head);
+			return;
+		}
 		
 		while(curr != null) {
 			prev = curr;
@@ -65,7 +68,7 @@ public class LinkedList<T extends Comparable<T>> {
 	}
 	private void print(Node h) {
 		if(h == null) return;
-		System.out.println(h.toString());
+		System.out.println(h.item);
 		print(h.next);
 	}
 
