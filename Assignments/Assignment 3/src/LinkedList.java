@@ -6,6 +6,7 @@
  */
 public class LinkedList<T extends Comparable<T>> {
 	
+	// Node definition
 	private class Node {
 		T item;
 		Node next;
@@ -18,17 +19,13 @@ public class LinkedList<T extends Comparable<T>> {
 	
 	private Node head;
 	
+	// Linked list methods
 	public boolean isEmpty() {
 		return head == null;
 	}
 	
 	public void addFirst(T item) {
 		head = new Node(item, head);
-	}
-	
-	public void deleteFirst() throws ItemNotFoundException {
-		if(isEmpty()) throw new ItemNotFoundException("List is empty!");
-		head = head.next;
 	}
 	
 	public void addLast(T item) {
@@ -45,6 +42,11 @@ public class LinkedList<T extends Comparable<T>> {
 		}
 		
 		prev.next = new Node(item, curr);
+	}
+	
+	public void deleteFirst() throws ItemNotFoundException {
+		if(isEmpty()) throw new ItemNotFoundException("List is empty!");
+		head = head.next;
 	}
 	
 	public void deleteLast() throws ItemNotFoundException {
