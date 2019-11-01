@@ -1,6 +1,8 @@
 /*
  * Assignment 3
  * Michael Buffone
+ * Oct 30th, 2019
+ * 
  * Student class that implements comparable so it can be generically used
  * by the linked list
  */
@@ -10,7 +12,7 @@ public class Student implements Comparable<Student> {
 	private int stuNum = 0;
 	private double mark = 0;
 	
-	// *** Constructors ***
+	// Constructors
 	public Student() {
 		this.stuNum = 0;
 		this.mark = 0;
@@ -21,7 +23,7 @@ public class Student implements Comparable<Student> {
 		this.mark = mark;
 	}
 	
-	// *** Getters and Setters ***
+	// ****** Getters and Setters ******
 	public int getStuNum() {
 		return stuNum;
 	}
@@ -36,7 +38,7 @@ public class Student implements Comparable<Student> {
 		this.mark = mark;
 	}
 
-	// *** Overridden methods ***
+	// ****** Utility methods ******
 	@Override
 	public int compareTo(Student o) {
 		if(this.getMark() < o.getMark()) {

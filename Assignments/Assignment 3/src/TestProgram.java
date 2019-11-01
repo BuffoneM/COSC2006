@@ -1,28 +1,33 @@
+/*
+ * Assignment 3
+ * Michael Buffone
+ * Oct 30th, 2019
+ * 
+ * Test program by creating a linked list of type student
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/*
- * Assignment 3
- * Michael Buffone
- * Test program by creating a linked list of type student
- */
 
 public class TestProgram {
 	
 	public static void main(String[] args) {
 		
 		System.out.println("----------- Data Set 1 -----------");
-		File file = new File("DataSet1.txt");
+		File file = new File("test1.txt");
 		LinkedList<Student> list = new LinkedList<Student>();
 		readFile(file, list);
 		list.print();
+		list.median();
 		
 		System.out.println("\n----------- Data Set 2 -----------");
-		File file2 = new File("DataSet2.txt");
+		File file2 = new File("test2.txt");
 		LinkedList<Student> list2 = new LinkedList<Student>();
 		readFile(file2, list2);
 		list2.print();
+		list2.median();
 		
 	}
 	
@@ -38,7 +43,7 @@ public class TestProgram {
 				
 				int stuNum = input.nextInt();
 				double mark = input.nextDouble();
-				list.addFirst(new Student(stuNum, mark));
+				list.addSorted(new Student(stuNum, mark));
 				
 			}
 			
@@ -50,33 +55,3 @@ public class TestProgram {
 	}
 
 }
-
-
-// Test data
-/*
-Student s1 = new Student();
-System.out.println(s1.toString());
-
-Student s2 = new Student(1234, 55.5);
-System.out.println(s2.toString());
-
-System.out.println("----------------------------------------");
-LinkedList<Student> list = new LinkedList<Student>();
-list.addLast(s1);
-//list.addFirst(s1);
-list.addFirst(s2);
-list.addFirst(new Student(12345, 99));
-list.print();
-
-System.out.println("----------------------------------------");
-list.deleteFirst();
-list.print();
-
-System.out.println("----------------------------------------");
-list.addLast(new Student(5555, 45));
-list.print();
-
-System.out.println("----------------------------------------");
-list.deleteLast();
-list.print();
-*/
