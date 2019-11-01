@@ -3,7 +3,8 @@
  * Michael Buffone
  * Oct 30th, 2019
  * 
- * Test program by creating a linked list of type student
+ * Test program by creating linked lists of students
+ * with data from text files
  */
 
 import java.io.File;
