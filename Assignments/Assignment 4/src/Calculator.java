@@ -63,6 +63,7 @@ public class Calculator extends Application {
 		calcArea.setPrefSize(400, 40);
 		calcArea.setStyle("-fx-font-size: 12pt;");
 		calcArea.setEditable(false);
+		calcArea.setFocusTraversable(false);
 		
 		
 		/*--------------------Create buttons etc. with properties in a pane--------------------*/
@@ -122,8 +123,10 @@ public class Calculator extends Application {
 		buttonPane.add(btZero, 2, 4);
 		buttonPane.add(btEquals, 3, 4);
 		
-		// Radio button grouping
+		// Radio button grouping and other properties
 		rbInfix.setSelected(true);
+		rbInfix.setFocusTraversable(false);
+		rbPostfix.setFocusTraversable(false);
 		rbInfix.setToggleGroup(tgFixGroup);
 		rbPostfix.setToggleGroup(tgFixGroup);
 		rbInfix.setStyle("-fx-font-size: 12pt;");
@@ -264,6 +267,7 @@ public class Calculator extends Application {
 	private void setButtonSize(Button bt) {
 		bt.setPrefSize(40, 40);
 		bt.setStyle("-fx-font-size: 12pt;");
+		bt.setFocusTraversable(false);
 	}
 
 	public static void main(String[] args) {
