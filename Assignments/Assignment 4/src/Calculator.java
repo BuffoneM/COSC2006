@@ -47,6 +47,9 @@ public class Calculator extends Application {
 	private Button btNine = new Button("9");
 	private Button btZero = new Button("0");
 	
+	// Have a calculation type to allow modularity if another calculation type gets added in the future
+	private int calculationType = 0;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		
@@ -120,6 +123,7 @@ public class Calculator extends Application {
 		buttonPane.add(btEquals, 3, 4);
 		
 		// Radio button grouping
+		rbInfix.setSelected(true);
 		rbInfix.setToggleGroup(tgFixGroup);
 		rbPostfix.setToggleGroup(tgFixGroup);
 		rbInfix.setStyle("-fx-font-size: 12pt;");
@@ -155,13 +159,13 @@ public class Calculator extends Application {
 		
 		/*--------------------Create radio button functionality--------------------*/
 		rbInfix.setOnAction(e -> {
-				if(rbInfix.isSelected()) {
-					System.out.println("Operating with infix...");
-				}
+			if(rbInfix.isSelected()) {
+				calculationType = 0;
+			}
 		});
 		rbPostfix.setOnAction(e -> {
 			if(rbPostfix.isSelected()) {
-				System.out.println("Operating with postfix...");
+				calculationType = 1;
 			}
 		});
 		
@@ -229,7 +233,27 @@ public class Calculator extends Application {
 		calcArea.appendText(")");
 	}
 	private void btEqualsPress() {
-		System.out.println("CALCULATING");
+		
+		String userFormula;
+		// Set calculation type depending on what radio buttons are used
+		switch(calculationType) {
+		// Infix
+		case 0:
+			System.out.println(calculationType);
+			System.out.println(calcArea.getText());
+			userFormula = calcArea.getText();
+			
+			break;
+			
+		// Prefix
+		case 1:
+			System.out.println(calculationType);
+			System.out.println(calcArea.getText());
+			userFormula = calcArea.getText();
+
+			break;
+		}
+		
 	}
 	private void btClearPress() {
 		calcArea.setText("");
