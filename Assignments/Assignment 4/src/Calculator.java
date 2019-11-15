@@ -59,7 +59,7 @@ public class Calculator extends Application {
 		mainPane.setTop(calcArea);
 		
 		// Text box
-		calcArea.setPromptText("Ex. 1+5/6*2");
+		calcArea.setPromptText("Ex. 1 + 5 / ( 6 * 2 )");
 		calcArea.setPrefSize(400, 40);
 		calcArea.setStyle("-fx-font-size: 12pt;");
 		calcArea.setEditable(false);
@@ -164,11 +164,13 @@ public class Calculator extends Application {
 		rbInfix.setOnAction(e -> {
 			if(rbInfix.isSelected()) {
 				calculationType = 0;
+				calcArea.setPromptText("Ex. 1 + 5 / ( 6 * 2 )");
 			}
 		});
 		rbPostfix.setOnAction(e -> {
 			if(rbPostfix.isSelected()) {
 				calculationType = 1;
+				calcArea.setPromptText("Ex. 1 5 + 6 2 * /");
 			}
 		});
 		
@@ -218,41 +220,43 @@ public class Calculator extends Application {
 	
 	/*--------------------Create operator button functionality--------------------*/
 	private void btAddPress() {
-		calcArea.appendText("+");
+		calcArea.appendText(" + ");
 	}
 	private void btMinusPress() {
-		calcArea.appendText("-");
+		calcArea.appendText(" - ");
 	}
 	private void btMultiplyPress() {
-		calcArea.appendText("*");
+		calcArea.appendText(" * ");
 	}
 	private void btDividePress() {
-		calcArea.appendText("/");
+		calcArea.appendText(" / ");
 	}
 	private void btLeftBracketPress() {
-		calcArea.appendText("(");
+		calcArea.appendText(" ( ");
 	}
 	private void btRightBracketPress() {
-		calcArea.appendText(")");
+		calcArea.appendText(" ) ");
 	}
 	private void btEqualsPress() {
 		
-		String userFormula;
 		// Set calculation type depending on what radio buttons are used
 		switch(calculationType) {
 		// Infix
 		case 0:
 			System.out.println(calculationType);
-			System.out.println(calcArea.getText());
-			userFormula = calcArea.getText();
+			InfixExpression ie = new InfixExpression(calcArea.getText());
+			
+			// If the expression is valid
+			if(ie.verify()) {
+				System.out.println(ie.getExp());
+			}
 			
 			break;
 			
-		// Prefix
+		// Prefix -------NOT COMPLETE
 		case 1:
 			System.out.println(calculationType);
 			System.out.println(calcArea.getText());
-			userFormula = calcArea.getText();
 
 			break;
 		}

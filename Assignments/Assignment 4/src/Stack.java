@@ -4,14 +4,13 @@
  * November 8th, 2019
  * 
  * Generic stack that can be used with any type of object
- * given that the object is comparable
  * 
  * This stack implements StackInterface and is used by InfixExpression
  * and PostfixExpression
  */
 public class Stack<T> implements StackInterface<T> {
 	
-	// Node definition
+		// ****** Node definition ******
 		private class Node {
 			T item;
 			Node next;
@@ -22,44 +21,57 @@ public class Stack<T> implements StackInterface<T> {
 			}
 		}
 		
+		// Stack variables
 		private Node head;
-	
-	
-	
-	@Override
-	public void createStack() {
-		// TODO Auto-generated method stub
+		private int size;
+
+		// Stack constructor
+		public Stack() {
+			head = null;
+			size = 0;
+		}
 		
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void push(T item) {
-		// TODO Auto-generated method stub
 		
-	}
+		// ****** Utility methods ******
+		// *** T return type ***
+		@Override
+		public T peek() throws StackException {
+			if(isEmpty()) throw new StackException("StackException: Peek(): Empty stack!");
+			return head.item;
+		}
 
-	@Override
-	public T pop() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		@Override
+		public T pop() throws StackException {
+			if(isEmpty()) throw new StackException("StackException: Pop(): Empty stack!");
+			else {
+				T temp = head.item;
+				head = head.next;
+				size -= 1;
+				return temp;
+			}
 
-	@Override
-	public void popAll() {
-		// TODO Auto-generated method stub
-		
-	}
+		}
 
-	@Override
-	public T peek() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		// *** Void return type ***
+		@Override
+		public void push(T item) {
+			head = new Node(item, head);
+			size += 1;
+		}
+
+		@Override
+		public void popAll() {
+			head = null;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return head == null;
+		}
+
+		@Override
+		public int size() {
+			return size;
+		}
 
 }

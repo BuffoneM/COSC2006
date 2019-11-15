@@ -8,12 +8,11 @@
 
 public interface StackInterface<T> {
 	
-	public boolean isEmpty();
-	public void createStack();
+	public T peek() throws StackException;
+	public T pop() throws StackException;
 	public void push(T item);
 	public void popAll();
-	public T peek();
-	public T pop();
-
+	public boolean isEmpty();
+	public int size();
 	
 }
