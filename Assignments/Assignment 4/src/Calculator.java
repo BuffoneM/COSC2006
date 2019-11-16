@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -34,6 +35,9 @@ public class Calculator extends Application {
 	private Button btEquals = new Button("=");
 	private Button btLeftBracket = new Button("(");
 	private Button btRightBracket = new Button(")");
+	private Button btSpace = new Button("Space");
+	private Button btExample = new Button("Ex.");
+
 
 	// Number buttons
 	private Button btOne = new Button("1");
@@ -59,11 +63,12 @@ public class Calculator extends Application {
 		mainPane.setTop(calcArea);
 		
 		// Text box
-		calcArea.setPromptText("Ex. 1 + 5 / ( 6 * 2 )");
+		calcArea.setPromptText("Ex. ( 4 + 8 ) * ( 6 - 5 ) / ( ( 3 - 2 ) * ( 2 + 2 ) )");
 		calcArea.setPrefSize(400, 40);
 		calcArea.setStyle("-fx-font-size: 12pt;");
 		calcArea.setEditable(false);
 		calcArea.setFocusTraversable(false);
+		
 		
 		
 		/*--------------------Create buttons etc. with properties in a pane--------------------*/
@@ -76,6 +81,12 @@ public class Calculator extends Application {
 		buttonPane.setHgap(10);		
 		
 		// Set button size
+		btSpace.setPrefSize(70, 40);
+		btSpace.setStyle("-fx-font-size: 12pt;");
+		btSpace.setFocusTraversable(false);
+		btExample.setPrefSize(70, 40);
+		btExample.setStyle("-fx-font-size: 12pt;");
+		btExample.setFocusTraversable(false);
 		setButtonSize(btClear);
 		setButtonSize(btAdd);
 		setButtonSize(btMinus);
@@ -117,6 +128,8 @@ public class Calculator extends Application {
 		buttonPane.add(btDivide, 4, 4);
 		buttonPane.add(btLeftBracket, 5, 1);
 		buttonPane.add(btRightBracket, 5, 2);
+		buttonPane.add(btSpace, 6, 1);
+		buttonPane.add(btExample, 6, 2);
 		
 		// Bottom row of operators
 		buttonPane.add(btClear, 1, 4);
@@ -150,6 +163,8 @@ public class Calculator extends Application {
 		btZero.setOnAction(e -> btZeroPress());
 
 		// Operator Button actions
+		btSpace.setOnAction(e -> btSpacePress());
+		btExample.setOnAction(e -> btExamplePress());
 		btClear.setOnAction(e -> btClearPress());
 		btAdd.setOnAction(e -> btAddPress());
 		btMinus.setOnAction(e -> btMinusPress());
@@ -157,30 +172,56 @@ public class Calculator extends Application {
 		btDivide.setOnAction(e -> btDividePress());
 		btEquals.setOnAction(e -> btEqualsPress());
 		btLeftBracket.setOnAction(e -> btLeftBracketPress());
-		btRightBracket.setOnAction(e -> btRightBracketPress());
+		btRightBracket.setOnAction(e -> btRightBracketPress());	
 		
-		
+
 		/*--------------------Create radio button functionality--------------------*/
 		rbInfix.setOnAction(e -> {
 			if(rbInfix.isSelected()) {
 				calculationType = 0;
-				calcArea.setPromptText("Ex. 1 + 5 / ( 6 * 2 )");
+				calcArea.setPromptText("Ex. ( 4 + 8 ) * ( 6 - 5 ) / ( ( 3 - 2 ) * ( 2 + 2 ) )");
 			}
 		});
 		rbPostfix.setOnAction(e -> {
 			if(rbPostfix.isSelected()) {
 				calculationType = 1;
-				calcArea.setPromptText("Ex. 1 5 + 6 2 * /");
+				calcArea.setPromptText("Ex. 4 8 + 6 5 - * 3 2 - 2 2 + * /");
 			}
 		});
 		
 		
 		/*--------------------Scene and stage--------------------*/
-		Scene scene = new Scene(mainPane, 400, 300);
+		Scene scene = new Scene(mainPane, 500, 300);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("JavaFX Calculator");
 		primaryStage.show();
+		
+		/*--------------------Key presses--------------------*/
+		scene.setOnKeyPressed(e -> {
+			if(e.getCode() == KeyCode.NUMPAD1) btOnePress();
+			if(e.getCode() == KeyCode.NUMPAD2) btTwoPress();
+			if(e.getCode() == KeyCode.NUMPAD3) btThreePress();
+			if(e.getCode() == KeyCode.NUMPAD4) btFourPress();
+			if(e.getCode() == KeyCode.NUMPAD5) btFivePress();
+			if(e.getCode() == KeyCode.NUMPAD6) btSixPress();
+			if(e.getCode() == KeyCode.NUMPAD7) btSevenPress();
+			if(e.getCode() == KeyCode.NUMPAD8) btEightPress();
+			if(e.getCode() == KeyCode.NUMPAD9) btNinePress();
+			if(e.getCode() == KeyCode.NUMPAD0) btZeroPress();
+			
+			if(e.getCode() == KeyCode.SPACE) btSpacePress();
+			if(e.getCode() == KeyCode.C) btClearPress();
+			if(e.getCode() == KeyCode.ADD) btAddPress();
+			if(e.getCode() == KeyCode.SUBTRACT) btMinusPress();
+			if(e.getCode() == KeyCode.MULTIPLY) btMultiplyPress();
+			if(e.getCode() == KeyCode.DIVIDE) btDividePress();
+			if(e.getCode() == KeyCode.ENTER) btEqualsPress();
+			if(e.getCode() == KeyCode.LEFT_PARENTHESIS) btLeftBracketPress();
+			if(e.getCode() == KeyCode.RIGHT_PARENTHESIS) btRightBracketPress();
+
+		});
+		
 
 	}
 	
@@ -219,23 +260,44 @@ public class Calculator extends Application {
 	
 	
 	/*--------------------Create operator button functionality--------------------*/
+	private void btSpacePress() {
+		calcArea.appendText(" ");
+	}
+	private void btExamplePress() {
+		switch(calculationType) {
+		case 0:
+			calcArea.clear();
+			calcArea.setText("( 4 + 8 ) * ( 6 - 5 ) / ( ( 3 - 2 ) * ( 2 + 2 ) )");
+			break;
+		case 1:
+			calcArea.clear();
+			calcArea.setText("4 8 + 6 5 - * 3 2 - 2 2 + * /");
+			break;
+		}
+	}
 	private void btAddPress() {
-		calcArea.appendText(" + ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("+ ");
+		else calcArea.appendText(" + ");
 	}
 	private void btMinusPress() {
-		calcArea.appendText(" - ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("- ");
+		else calcArea.appendText(" - ");
 	}
 	private void btMultiplyPress() {
-		calcArea.appendText(" * ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("* ");
+		else calcArea.appendText(" * ");
 	}
 	private void btDividePress() {
-		calcArea.appendText(" / ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("/ ");
+		else calcArea.appendText(" / ");
 	}
 	private void btLeftBracketPress() {
-		calcArea.appendText(" ( ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("( ");
+		else calcArea.appendText(" ( ");
 	}
 	private void btRightBracketPress() {
-		calcArea.appendText(" ) ");
+		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText(") ");
+		else calcArea.appendText(" ) ");
 	}
 	private void btEqualsPress() {
 		
@@ -243,21 +305,49 @@ public class Calculator extends Application {
 		switch(calculationType) {
 		// Infix
 		case 0:
-			System.out.println(calculationType);
+			//System.out.println(calculationType);
 			InfixExpression ie = new InfixExpression(calcArea.getText());
 			
 			// If the expression is valid
+			//System.out.println("verify:" + ie.verify());
 			if(ie.verify()) {
-				System.out.println(ie.getExp());
+				//System.out.println(ie.getExp());
+				//System.out.println("Starting evaluation...");
+				try {
+					calcArea.clear();
+					calcArea.appendText(ie.evaluate());
+				} catch (StackException se) {
+					System.out.println(se.getMessage());
+					calcArea.clear();
+					calcArea.appendText("Invalid expression");
+				}
 			}
-			
+			else {
+				calcArea.clear();
+				calcArea.appendText("Invalid expression");
+			}
 			break;
 			
-		// Prefix -------NOT COMPLETE
+		// Prefix
 		case 1:
-			System.out.println(calculationType);
-			System.out.println(calcArea.getText());
-
+			PostfixExpression pe = new PostfixExpression(calcArea.getText());
+			
+			// If the expression is valid
+			if(pe.verify()) {
+				try {
+					calcArea.clear();
+					calcArea.appendText(pe.evaluate());
+				} catch (StackException se) {
+					System.out.println(se.getMessage());
+					calcArea.clear();
+					calcArea.appendText("Invalid expression");
+				}
+			}
+			else {
+				calcArea.clear();
+				calcArea.appendText("Invalid expression");
+			}
+			
 			break;
 		}
 		
@@ -276,7 +366,6 @@ public class Calculator extends Application {
 
 	public static void main(String[] args) {
 		Application.launch();
-		
 		
 	}
 }

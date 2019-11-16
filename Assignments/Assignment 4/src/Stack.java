@@ -73,5 +73,21 @@ public class Stack<T> implements StackInterface<T> {
 		public int size() {
 			return size;
 		}
+		
+		// Print stack
+		public void print(String s) {
+			// Save top
+			Node headCopy = head;
+			
+			// Print 
+			System.out.println("--- " + s + " ---");
+			while (head != null) {
+				System.out.println(head.item);
+				head = head.next;
+			}
+			
+			// Restore top
+			head = headCopy;
+		}
 
 }

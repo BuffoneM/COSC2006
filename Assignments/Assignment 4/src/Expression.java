@@ -9,6 +9,6 @@
 public abstract class Expression {
 	
 	public abstract boolean verify();
-	public abstract int evaluate() throws StackException;
+	public abstract String evaluate() throws StackException;
 
 }

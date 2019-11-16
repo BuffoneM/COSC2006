@@ -57,35 +57,81 @@ public class InfixExpression extends Expression {
 
 	// Evaluate uses Stack class
 	@Override
-	public int evaluate() throws StackException {
+	public String evaluate() throws StackException {
 		
-		Stack<String> operand = new Stack<String>();
-		Stack<String> operator = new Stack<String>();
+		// Stack declaration
+		Stack<String> operand = new Stack<String>();		// For numbers
+		Stack<String> operator = new Stack<String>();		// For operators
 		
 		StringTokenizer st = new StringTokenizer(getExp());
 		while(st.hasMoreTokens()) {
+			operand.print("Operand stack");
+			operator.print("Operator stack");
 			String item = st.nextToken();
 			
-			// If the item is not an operator, push it onto the operand stack
-			if(!isOperator(item)) {
-				operand.push(item);
+			// If character is number, push operand on stack
+			if(!isOperator(item) && !item.equals("(") && !item.equals(")")) operand.push(item);	
+			
+			// If character is operator
+			if(isOperator(item)) {
+				// If the stack is empty, push the operator on the stack
+				if(operator.isEmpty()) operator.push(item);
+				
+				else {
+					// If the item precedence is >= operator.peek() precedence, push it on the stack
+					if(precedence(item) >= precedence(operator.peek())) operator.push(item);
+					else {
+						
+						while(!operator.isEmpty() && precedence(item)<precedence(operator.peek())) {
+							
+							// Pop operator from stack
+							char tempOperator = operator.pop().charAt(0);
+							// Pop the operands
+							Double operand2 = Double.parseDouble(operand.pop());
+							Double operand1 = Double.parseDouble(operand.pop());
+							
+							operand.push("" + calculate(operand1, operand2, tempOperator));
+
+						}
+					}
+				}
 			}
 			
-			// Therefore the item is an operator
-			if(operator.isEmpty()) operator.push(item);
-			// The operator stack isn't empty
-			else {
-				// If the char precedence is >= to the precedence operator on top of the stack
-				if(precedence(item) >= precedence(operator.peek())) {
-					operator.push(item);
+			// If character is (, push it on the operator stack
+			if(item.equals("(")) operator.push(item);
+			
+			// If character is )
+			if(item.equals(")")) {
+				
+				while(!operator.peek().equals("(")) {
+					// Pop operator from stack
+					char tempOperator = operator.pop().charAt(0);
+					// Pop the operands
+					Double operand2 = Double.parseDouble(operand.pop());
+					Double operand1 = Double.parseDouble(operand.pop());
+					
+					operand.push("" + calculate(operand1, operand2, tempOperator));
 				}
+				operator.pop();
 				
 			}
+	
 		}
 		
-		return 1;
+		while(!operator.isEmpty()) {
+			// Pop operator from stack
+			char tempOperator = operator.pop().charAt(0);
+			// Pop the operands
+			Double operand2 = Double.parseDouble(operand.pop());
+			Double operand1 = Double.parseDouble(operand.pop());
+			
+			operand.push("" + calculate(operand1, operand2, tempOperator));
+		}
+		
+		return operand.pop();
 	}
 	
+	// ****** Utility Methods ******
 	private boolean isOperator(String item) {
 		return item.equals("+") || item.equals("-") || item.equals("*") || item.equals("/");
 	}
@@ -94,5 +140,28 @@ public class InfixExpression extends Expression {
 		if(operator.equals("/") || operator.equals("*")) return 2;
 		return 1;
 	}
+	
+	private String calculate(Double o1, Double o2, char op) {
+		String answer = "";
+		
+		switch(op) {
+		case '+':
+			answer += o1 + o2;
+			break;
+		case '-':
+			answer += o1 - o2;
+			break;
+		case '*':
+			answer += o1 * o2;
+			break;
+		case '/':
+			if(o2 != 0) answer += o1 / o2;
+			else answer = "Error: Division by 0!";
+			break;
+		}
+		return answer;
+		
+	}
 
 }
+
