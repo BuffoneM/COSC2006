@@ -1,10 +1,11 @@
 /*
  *	Assignment 4
  * 	Michael Buffone
- * 	November 15th, 2019
+ * 	November 8th, 2019
  * 
  * 	Models a postfix expression
  */
+
 import java.util.StringTokenizer;
 
 public class PostfixExpression extends Expression {
@@ -34,6 +35,8 @@ public class PostfixExpression extends Expression {
 			
 			// If item = operator, decrement count
 			if(isOperator(item)) count--;
+			// If the item is a bracket, return false
+			else if(item.equals("(") || item.equals(")")) return false;
 			// Increment count for each digit in the item
 			else for(int i = 0; i < item.length(); i++) count++;
 						
@@ -48,12 +51,11 @@ public class PostfixExpression extends Expression {
 	@Override
 	public String evaluate() throws StackException {
 		
-		// Stack declaration
-		Stack<String> element = new Stack<String>();		// For numbers
+		// Stack declaration for numbers
+		Stack<String> element = new Stack<String>();
 		
 		StringTokenizer st = new StringTokenizer(getExp());
 		while(st.hasMoreTokens()) {
-			//element.print("Element");
 			String item = st.nextToken();
 			
 			// If the item is a number, push it on the stack
@@ -97,6 +99,3 @@ public class PostfixExpression extends Expression {
 	}
 
 }
-
-
-

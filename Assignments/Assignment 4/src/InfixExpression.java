@@ -5,6 +5,7 @@
  * 
  * 	Models an infix expression in which the operator comes between it's operands
  */
+
 import java.util.StringTokenizer;
 
 public class InfixExpression extends Expression {
@@ -50,6 +51,7 @@ public class InfixExpression extends Expression {
 			else count++;
 			
 		}
+		// If the last element of the expression is an open bracket, it incomplete
 		if(item.equals("(")) return false;
 		if(count == 1 && countBracket == 0) return true;
 		return false;
@@ -65,8 +67,7 @@ public class InfixExpression extends Expression {
 		
 		StringTokenizer st = new StringTokenizer(getExp());
 		while(st.hasMoreTokens()) {
-			operand.print("Operand stack");
-			operator.print("Operator stack");
+			
 			String item = st.nextToken();
 			
 			// If character is number, push operand on stack
@@ -100,7 +101,7 @@ public class InfixExpression extends Expression {
 			// If character is (, push it on the operator stack
 			if(item.equals("(")) operator.push(item);
 			
-			// If character is )
+			// If character is ), calculate everything in the brackets
 			if(item.equals(")")) {
 				
 				while(!operator.peek().equals("(")) {
@@ -113,11 +114,10 @@ public class InfixExpression extends Expression {
 					operand.push("" + calculate(operand1, operand2, tempOperator));
 				}
 				operator.pop();
-				
 			}
-	
-		}
+		} // end while()
 		
+		// Do the final calculation
 		while(!operator.isEmpty()) {
 			// Pop operator from stack
 			char tempOperator = operator.pop().charAt(0);

@@ -8,6 +8,7 @@
  * This stack implements StackInterface and is used by InfixExpression
  * and PostfixExpression
  */
+
 public class Stack<T> implements StackInterface<T> {
 	
 		// ****** Node definition ******
@@ -31,7 +32,6 @@ public class Stack<T> implements StackInterface<T> {
 			size = 0;
 		}
 		
-		
 		// ****** Utility methods ******
 		// *** T return type ***
 		@Override
@@ -49,7 +49,6 @@ public class Stack<T> implements StackInterface<T> {
 				size -= 1;
 				return temp;
 			}
-
 		}
 
 		// *** Void return type ***
@@ -75,18 +74,18 @@ public class Stack<T> implements StackInterface<T> {
 		}
 		
 		// Print stack
-		public void print(String s) {
-			// Save top
+		public void print(String stackName) {
+			// Save head
 			Node headCopy = head;
 			
 			// Print 
-			System.out.println("--- " + s + " ---");
+			System.out.println("--- " + stackName + " ---");
 			while (head != null) {
 				System.out.println(head.item);
 				head = head.next;
 			}
 			
-			// Restore top
+			// Restore head
 			head = headCopy;
 		}
 

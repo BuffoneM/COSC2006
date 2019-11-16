@@ -3,7 +3,7 @@
  * 	Michael Buffone
  * 	November 8th, 2019
  * 
- * 	JavaFX calculator
+ * 	JavaFX calculator UI that utilizes InfixExpression and PostfixExpression
  */
 
 import javafx.application.Application;
@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Calculator extends Application {
@@ -38,7 +40,6 @@ public class Calculator extends Application {
 	private Button btSpace = new Button("Space");
 	private Button btExample = new Button("Ex.");
 
-
 	// Number buttons
 	private Button btOne = new Button("1");
 	private Button btTwo = new Button("2");
@@ -60,15 +61,21 @@ public class Calculator extends Application {
 		// Main pane
 		BorderPane mainPane = new BorderPane();
 		mainPane.setPadding(new Insets(20, 20, 20, 20));
-		mainPane.setTop(calcArea);
 		
-		// Text box
+		// Create tempPane to prevent the text area from being selected
+		StackPane tempPane = new StackPane();
+		tempPane.setPrefSize(400, 40);
+		Rectangle rect = new Rectangle(470, 45);
+		rect.setStyle("-fx-background-color:#ffffff; -fx-opacity:0;");
+		tempPane.getChildren().addAll(calcArea, rect);
+		mainPane.setTop(tempPane);
+		
+		// Text box default at initial launch
 		calcArea.setPromptText("Ex. ( 4 + 8 ) * ( 6 - 5 ) / ( ( 3 - 2 ) * ( 2 + 2 ) )");
 		calcArea.setPrefSize(400, 40);
 		calcArea.setStyle("-fx-font-size: 12pt;");
 		calcArea.setEditable(false);
 		calcArea.setFocusTraversable(false);
-		
 		
 		
 		/*--------------------Create buttons etc. with properties in a pane--------------------*/
@@ -80,7 +87,7 @@ public class Calculator extends Application {
 		buttonPane.setVgap(10);
 		buttonPane.setHgap(10);		
 		
-		// Set button size
+		// Set button size, space and example separate because of their sizing
 		btSpace.setPrefSize(70, 40);
 		btSpace.setStyle("-fx-font-size: 12pt;");
 		btSpace.setFocusTraversable(false);
@@ -197,18 +204,19 @@ public class Calculator extends Application {
 		primaryStage.setTitle("JavaFX Calculator");
 		primaryStage.show();
 		
+		
 		/*--------------------Key presses--------------------*/
 		scene.setOnKeyPressed(e -> {
-			if(e.getCode() == KeyCode.NUMPAD1) btOnePress();
-			if(e.getCode() == KeyCode.NUMPAD2) btTwoPress();
-			if(e.getCode() == KeyCode.NUMPAD3) btThreePress();
-			if(e.getCode() == KeyCode.NUMPAD4) btFourPress();
-			if(e.getCode() == KeyCode.NUMPAD5) btFivePress();
-			if(e.getCode() == KeyCode.NUMPAD6) btSixPress();
-			if(e.getCode() == KeyCode.NUMPAD7) btSevenPress();
-			if(e.getCode() == KeyCode.NUMPAD8) btEightPress();
-			if(e.getCode() == KeyCode.NUMPAD9) btNinePress();
-			if(e.getCode() == KeyCode.NUMPAD0) btZeroPress();
+			if(e.getCode() == KeyCode.NUMPAD1 || e.getCode() == KeyCode.DIGIT1) btOnePress();
+			if(e.getCode() == KeyCode.NUMPAD2 || e.getCode() == KeyCode.DIGIT2) btTwoPress();
+			if(e.getCode() == KeyCode.NUMPAD3 || e.getCode() == KeyCode.DIGIT3) btThreePress();
+			if(e.getCode() == KeyCode.NUMPAD4 || e.getCode() == KeyCode.DIGIT4) btFourPress();
+			if(e.getCode() == KeyCode.NUMPAD5 || e.getCode() == KeyCode.DIGIT5) btFivePress();
+			if(e.getCode() == KeyCode.NUMPAD6 || e.getCode() == KeyCode.DIGIT6) btSixPress();
+			if(e.getCode() == KeyCode.NUMPAD7 || e.getCode() == KeyCode.DIGIT7) btSevenPress();
+			if(e.getCode() == KeyCode.NUMPAD8 || e.getCode() == KeyCode.DIGIT8) btEightPress();
+			if(e.getCode() == KeyCode.NUMPAD9 || e.getCode() == KeyCode.DIGIT9) btNinePress();
+			if(e.getCode() == KeyCode.NUMPAD0 || e.getCode() == KeyCode.DIGIT0) btZeroPress();
 			
 			if(e.getCode() == KeyCode.SPACE) btSpacePress();
 			if(e.getCode() == KeyCode.C) btClearPress();
@@ -217,13 +225,12 @@ public class Calculator extends Application {
 			if(e.getCode() == KeyCode.MULTIPLY) btMultiplyPress();
 			if(e.getCode() == KeyCode.DIVIDE) btDividePress();
 			if(e.getCode() == KeyCode.ENTER) btEqualsPress();
-			if(e.getCode() == KeyCode.LEFT_PARENTHESIS) btLeftBracketPress();
-			if(e.getCode() == KeyCode.RIGHT_PARENTHESIS) btRightBracketPress();
+			if(e.getCode() == KeyCode.COMMA) btLeftBracketPress();
+			if(e.getCode() == KeyCode.PERIOD) btRightBracketPress();
 
 		});
 		
-
-	}
+	} // end start()
 	
 	
 	/*--------------------Create number button functionality--------------------*/
@@ -275,44 +282,53 @@ public class Calculator extends Application {
 			break;
 		}
 	}
+	
+	/* 
+	 * - If there is nothing in the textArea, append the symbol
+	 * - If the previous char in the textArea has a space, don't print a space with the symbol
+	 * - If the previous char doesn't have a space, print a space with the symbol
+	 */
 	private void btAddPress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("+ ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" + ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("+ ");
 		else calcArea.appendText(" + ");
 	}
 	private void btMinusPress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("- ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" - ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("- ");
 		else calcArea.appendText(" - ");
 	}
 	private void btMultiplyPress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("* ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" * ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("* ");
 		else calcArea.appendText(" * ");
 	}
 	private void btDividePress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("/ ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" / ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("/ ");
 		else calcArea.appendText(" / ");
 	}
 	private void btLeftBracketPress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("( ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" ( ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText("( ");
 		else calcArea.appendText(" ( ");
 	}
 	private void btRightBracketPress() {
-		if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText(") ");
+		if(calcArea.getLength() == 0) calcArea.appendText(" ) ");
+		else if(calcArea.getText().charAt(calcArea.getLength()-1) == ' ') calcArea.appendText(") ");
 		else calcArea.appendText(" ) ");
 	}
 	private void btEqualsPress() {
 		
-		// Set calculation type depending on what radio buttons are used
+		// Set calculation type depending on what radio button is used
 		switch(calculationType) {
+		
 		// Infix
 		case 0:
-			//System.out.println(calculationType);
 			InfixExpression ie = new InfixExpression(calcArea.getText());
 			
-			// If the expression is valid
-			//System.out.println("verify:" + ie.verify());
+			// If the expression is valid, try to evaluate it
 			if(ie.verify()) {
-				//System.out.println(ie.getExp());
-				//System.out.println("Starting evaluation...");
 				try {
 					calcArea.clear();
 					calcArea.appendText(ie.evaluate());
@@ -332,7 +348,7 @@ public class Calculator extends Application {
 		case 1:
 			PostfixExpression pe = new PostfixExpression(calcArea.getText());
 			
-			// If the expression is valid
+			// If the expression is valid, try to evaluate it
 			if(pe.verify()) {
 				try {
 					calcArea.clear();
@@ -347,11 +363,10 @@ public class Calculator extends Application {
 				calcArea.clear();
 				calcArea.appendText("Invalid expression");
 			}
-			
 			break;
-		}
+		} // end switch(calculationType)
 		
-	}
+	} // end equals()
 	private void btClearPress() {
 		calcArea.setText("");
 	}
