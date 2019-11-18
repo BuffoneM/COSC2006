@@ -67,7 +67,7 @@ public class InfixExpression extends Expression {
 		
 		StringTokenizer st = new StringTokenizer(getExp());
 		while(st.hasMoreTokens()) {
-			
+
 			String item = st.nextToken();
 			
 			// If character is number, push operand on stack
