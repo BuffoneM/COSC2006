@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  *	Assignment 5
  * 	Michael Buffone
@@ -45,6 +47,14 @@ public class MyQueue implements IntegerQueue {
 		if(!isEmpty()) return front.item;
 		else throw new EmptyStructureException("First: Queue is empty");
 	}
+	
+	public void dequeueAll() throws EmptyStructureException {
+		if(isEmpty()) throw new EmptyStructureException("DequeueAll: Queue is empty");
+		else {
+			back = null;
+			front = null;
+		}
+	}
 
 	@Override
 	public Integer dequeue() throws EmptyStructureException {
@@ -87,7 +97,22 @@ public class MyQueue implements IntegerQueue {
 		front = backup;
 	}
 	
-	public void sort() {
+	/* 
+	 * -Create temporary array of ints, de-queue every int into the array
+	 * -Sort the array, and re-queue every int from the array into the queue
+	 */
+	public void sort() throws EmptyStructureException {
+		int tempSize = size;
+		int[] newArray = new int[tempSize];
+		for(int i = 0; i < newArray.length; i++) {
+			newArray[i] = this.dequeue();
+		}
+		
+		Arrays.sort(newArray);
+		
+		for(int i = 0; i < tempSize; i++) {
+			this.enqueue(newArray[i]);
+		}
 		
 	}
 
